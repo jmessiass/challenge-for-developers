@@ -1,4 +1,14 @@
 {% extends 'base.html' %}
 {% block conteudo %}
-    new
+    <form action="{% url 'novo' %}" method="post">
+        {% csrf_token %}
+        <p>Usuário GitHub</p>
+        <input type="text" name="user" required="required" />
+        <input type="submit" value="Salvar Favoritos">
+    </form>
+    {% if validation == True%}
+        <p>Foram adicionados {{ msg }} Projetos</p>
+    {% elif validation == False %}
+        <p>{{ msg }}</p>
+    {% endif %}
 {% endblock conteudo %}

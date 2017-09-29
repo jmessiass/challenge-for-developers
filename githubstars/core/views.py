@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from .models import Repositorie
+import requests
+import json
 
 
 def home(request):
@@ -7,15 +10,43 @@ def home(request):
 
 
 def new(request):
-    """ initial page """
-    return render(request, 'new.html')
+    """ new repositorie page """
+    validation = False
+    msg = ''
+    if request.method == 'POST':
+
+        url = 'https://api.github.com/users/%s/starred' % request.POST.get('user')
+        return_url = requests.get(url)
+
+        if return_url.ok:
+            repositories = json.loads(return_url.text)
+            validation = True
+            msg = len(repositories)
+
+            for repositorie in repositories:
+                obj_repositorie = Repositorie()
+                obj_repositorie.repositorie_id = repositorie['id']
+                obj_repositorie.repositorie_name = repositorie['name']
+                obj_repositorie.repositorie_url = repositorie['html_url']
+                obj_repositorie.repositorie_language = repositorie['language']
+                obj_repositorie.save()
+
+        else:
+            msg = 'Não foi possível encontrar este usuário!'
+
+    context = {
+        'validation': validation,
+        'msg': msg
+    }
+
+    return render(request, 'new.html', context)
 
 
 def edit(request):
-    """ initial page """
+    """ edit repositorie page """
     return render(request, 'edit.html')
 
 
 def search(request):
-    """ initial page """
+    """ search repositorie page """
     return render(request, 'search.html')
