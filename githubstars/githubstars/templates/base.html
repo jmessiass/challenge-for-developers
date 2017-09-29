@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Repositórios</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <!--<link rel="stylesheet" href="/static/css/style.css" />-->
+    <style>
+        body {
+            background-color: #ccc;
+        }
+        header h2 {
+            color: black;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>Repositórios GitHub</h2>
+    </header>
+    <section>
+        {% block conteudo %}{% endblock conteudo %}
+    </section>
+</body>
+</html>

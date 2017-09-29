@@ -4,8 +4,6 @@
 
 - clone o projeto
 
-`cd /home/usuario`
-
 `git clone https://github.com/jmessiass/challenge-for-developers.git`
 
 - acesse a pasta do projeto
