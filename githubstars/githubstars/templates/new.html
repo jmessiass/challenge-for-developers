@@ -4,14 +4,13 @@
     <li class="breadcrumb-item active">Salvar Projetos</li>
 {% endblock breadcrumb %}
 {% block conteudo %}
-    <form action="{% url 'novo' %}" method="post">
-        {% csrf_token %}
         <div class="col-md-4 text-center align-center">
             <div class="form-group">
                 <label for="exampleInputEmail1"><b>Usuário GitHub</b></label>
-                <input type="text" class="form-control" aria-describedby="usuarioGitHub" name="user" placeholder="Entre com o usuário" required="required">
+                <input type="text" class="form-control" aria-describedby="usuarioGitHub" onchange="AddProject(this)" name="user" placeholder="Entre com o usuário" required="required">
+                <small id="usuarioGitHub" class="form-text text-muted">De enter após digitar seu usuário</small>
             </div>
-            <button type="submit" class="btn btn-success">Salvar</button>
+            <div id="msg"></div>
             {% if validation == True %}
                 <div class="alert alert-success" role="alert">
                     Foram adicionados {{ msg }} Projetos
@@ -22,5 +21,27 @@
                 </div>
             {% endif %}
         </div>
-    </form>
 {% endblock conteudo %}
+{% block js %}
+    <script>
+        function AddProject(id_user) {
+          $.ajax({
+            type:"POST",
+            url: '{% url "novo" %}',
+            data: {
+                uid: id_user.value,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(data){
+                if ( JSON.stringify(data['status']) == 201 ) {
+                    $('#msg').html('')
+                    $("#msg").append("<div class='alert alert-success' role='alert'>Foram adicionas " + data['total'] + " projetos</div>");
+                } else {
+                    $('#msg').html('')
+                    $("#msg").append("<div class='alert alert-danger' role='alert'>Falha pra adicionar projetos</div>");
+                }
+            }
+          });
+        }
+    </script>
+{% endblock js %}

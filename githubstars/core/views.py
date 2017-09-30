@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Repositorie
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from githubstars.serializers import RepositorieSerializer
 from rest_framework import viewsets
 import requests
@@ -14,35 +14,30 @@ def home(request):
 
 def new(request):
     """ new repositorie page """
-    validation = None
-    msg = ''
     if request.method == 'POST':
-        url = 'https://api.github.com/users/%s/starred' % request.POST.get('user')
+        url = 'https://api.github.com/users/%s/starred' % request.POST.get('uid')
         return_url = requests.get(url)
 
         if return_url.ok:
             repositories = json.loads(return_url.text)
-            validation = True
-            msg = len(repositories)
+            total = len(repositories)
 
             for repositorie in repositories:
-                project = Repositorie()
-                project.repositorie_id = repositorie['id']
-                project.name = repositorie['name']
-                project.url = repositorie['html_url']
-                project.language = repositorie['language']
-                project.save()
+                data = {'repositorie_id': repositorie.get('id'),
+                        'name': repositorie.get('name'),
+                        'url': repositorie.get('html_url'),
+                        'language': repositorie.get('language')}
 
+                serializer = RepositorieSerializer(data=data)
+
+                if serializer.is_valid():
+                    serializer.save()
+
+            return JsonResponse(data={'total': total, 'status': 201})
         else:
-            validation = False
-            msg = 'Não foi possível encontrar este usuário!'
+            return JsonResponse(data={'status': 400})
 
-    context = {
-        'validation': validation,
-        'msg': msg
-    }
-
-    return render(request, 'new.html', context)
+    return render(request, 'new.html')
 
 
 def remove_tag_duplicate(tags):

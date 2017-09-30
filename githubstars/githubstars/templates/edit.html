@@ -45,7 +45,7 @@
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function(data){
-                var tags = JSON.stringify(data['tag'])
+                var tags = JSON.stringify(data['tag']);
                 tags = tags.replace(/\"/g, "");
                 if ( tags != 'null' ) {
                     $('#tags').val(tags);

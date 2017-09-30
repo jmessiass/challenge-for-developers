@@ -10,7 +10,7 @@ class RepositorieSerializer(serializers.Serializer):
     tag = serializers.CharField(required=False, max_length=255)
 
     def create(self, validated_data):
-        """ Create and return a new `Snippet` instance, given the validated data."""
+        """ Create and return a new `Repositorie` instance, given the validated data."""
         return Repositorie.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
