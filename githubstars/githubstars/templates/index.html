@@ -4,26 +4,14 @@
 {% endblock breadcrumb %}
 {% block conteudo %}
     <div class="row">
-        <div class="col-sm-4">
-            <div class="card">
-                <div class="card-body">
-                    <a href="{% url 'novo' %}" class="btn btn-success btn-lg">Salvar Projetos</a>
-                </div>
-            </div>
+        <div class="col-sm-4 text-center">
+            <a href="{% url 'novo' %}" class="btn btn-success btn-lg">Salvar Projetos</a>
         </div>
-        <div class="col-sm-4">
-            <div class="card">
-                <div class="card-body">
-                    <a href="{% url 'editar' %}" class="btn btn-primary btn-lg">Adicionar Tags</a>
-                </div>
-            </div>
+        <div class="col-sm-4 text-center">
+            <a href="{% url 'editar' %}" class="btn btn-primary btn-lg">Adicionar Tags</a>
         </div>
-        <div class="col-sm-4">
-            <div class="card">
-                <div class="card-body">
-                    <a href="{% url 'pesquisar' %}" class="btn btn-danger btn-lg">Buscar por Tag</a>
-                </div>
-            </div>
+        <div class="col-sm-4 text-center">
+            <a href="{% url 'pesquisar' %}" class="btn btn-danger btn-lg">Buscar por Tag</a>
         </div>
     </div>
 {% endblock conteudo %}

@@ -4400,6 +4400,7 @@ tbody.collapse.show {
 
 .card {
   position: relative;
+  padding: 0.8rem 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -4409,9 +4410,9 @@ tbody.collapse.show {
   -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
-  /*background-color: #fff;*/
-  /*border: 1px solid rgba(0, 0, 0, 0.125);*/
-  /*border-radius: 0.25rem;*/
+  background-color: #ffff77;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
 }
 
 .card-block {

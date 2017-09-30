@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from .models import Repositorie
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from githubstars.serializers import RepositorieSerializer
+from rest_framework import viewsets
 import requests
 import json
-import collections
 
 
 def home(request):
@@ -25,12 +26,12 @@ def new(request):
             msg = len(repositories)
 
             for repositorie in repositories:
-                obj_repositorie = Repositorie()
-                obj_repositorie.repositorie_id = repositorie['id']
-                obj_repositorie.repositorie_name = repositorie['name']
-                obj_repositorie.repositorie_url = repositorie['html_url']
-                obj_repositorie.repositorie_language = repositorie['language']
-                obj_repositorie.save()
+                project = Repositorie()
+                project.repositorie_id = repositorie['id']
+                project.name = repositorie['name']
+                project.url = repositorie['html_url']
+                project.language = repositorie['language']
+                project.save()
 
         else:
             validation = False
@@ -45,6 +46,7 @@ def new(request):
 
 
 def remove_tag_duplicate(tags):
+    """ remove tag duplicated """
     final_tags = ''
     tags_split = tags.split(',')
     tags = list(set(tags_split))
@@ -61,15 +63,12 @@ def edit(request):
     """ edit repositorie page """
     validation = None
     if request.method == 'POST' and request.POST.get('uid'):
-
         id_project = request.POST.get('uid', 0)
-        project = Repositorie.objects.get(id=id_project)
-        tags = project.repositorie_tag
-
-        return HttpResponse(tags)
+        projects = Repositorie.objects.get(repositorie_id=id_project)
+        serializer = RepositorieSerializer(projects, many=False)
+        return JsonResponse(serializer.data, safe=False)
 
     elif request.method == 'POST' and not request.POST.get('uid'):
-
         tags = request.POST.get('tags', None)
         final_tags = remove_tag_duplicate(tags)
         # update tags
@@ -80,7 +79,7 @@ def edit(request):
         validation = True
 
     context = {
-        'projects': Repositorie.objects.all().order_by('repositorie_name'),
+        'projects': Repositorie.objects.all().order_by('name'),
         'validation': validation
     }
 
@@ -90,3 +89,11 @@ def edit(request):
 def search(request):
     """ search repositorie page """
     return render(request, 'search.html')
+
+
+class RepositorieViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Repositorie.objects.all().order_by('name')
+    serializer_class = RepositorieSerializer

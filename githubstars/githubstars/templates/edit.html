@@ -12,7 +12,7 @@
                 <select class="form-control" name="project" onchange="SelectProject(this)">
                     <option>Selecione um projeto...</option>
                     {% for project in projects %}
-                        <option value="{{ project.id }}">{{ project }}</option>
+                        <option value="{{ project.repositorie_id }}">{{ project }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -45,8 +45,10 @@
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function(data){
-                if ( data != 'None' ) {
-                    $('#tags').val(data);
+                var tags = JSON.stringify(data['tag'])
+                tags = tags.replace(/\"/g, "");
+                if ( tags != 'null' ) {
+                    $('#tags').val(tags);
                 } else {
                     $('#tags').val('');
                 }
