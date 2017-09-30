@@ -4,12 +4,12 @@
     <li class="breadcrumb-item active">Adicionar Tags</li>
 {% endblock breadcrumb %}
 {% block conteudo %}
-    <form action="{% url 'novo' %}" method="post">
+    <form action="{% url 'editar' %}" method="post">
         {% csrf_token %}
         <div class="col-md-4 text-center align-center">
             <div class="form-group">
                 <label for="projetos"><b>Projetos</b></label>
-                <select class="form-control" name="projects">
+                <select class="form-control" name="projects" onchange="SelectProject(this)">
                     <option>Selecione um projeto...</option>
                     {% for project in projects %}
                         <option value="{{ project.id }}">{{ project }}</option>
@@ -18,8 +18,8 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1"><b>Tags</b></label>
-                <input type="text" class="form-control" aria-describedby="tagsProjeto" name="user" placeholder="tag1,tag2,tag3" required="required">
-                <small id="tagsProjeto" class="form-text text-muted">Coloque cada tag separada por vírgula</small>
+                <input type="text" class="form-control" aria-describedby="tagsProjeto" name="tags" id="tags" value="{{ project_tags }}">
+                <small id="tagsProjeto" class="form-text text-muted">Adicione as tags separadas por vírgula</small>
             </div>
             <button type="submit" class="btn btn-primary">Adicionar</button>
             {% if validation == True %}
@@ -34,3 +34,24 @@
         </div>
     </form>
 {% endblock conteudo %}
+{% block js %}
+    <script>
+        function SelectProject(id_project) {
+          $.ajax({
+            type:"POST",
+            url: '{% url "editar" %}',
+            data: {
+                uid: id_project.value,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(data){
+                if ( data != 'None' ) {
+                    $('#tags').val(data);
+                } else {
+                    $('#tags').val('');
+                }
+            }
+          });
+        }
+    </script>
+{% endblock js %}

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Repositorie
+from django.http import HttpResponse
 import requests
 import json
 
@@ -44,8 +45,14 @@ def new(request):
 
 def edit(request):
     """ edit repositorie page """
+    if request.method == 'POST' and request.POST.get('uid'):
+        id_project = request.POST.get('uid', 0)
+        project = Repositorie.objects.get(id=id_project)
+        tags = project.repositorie_tag
+        return HttpResponse(tags)
+
     context = {
-        'projects': Repositorie.objects.all().order_by('repositorie_name')
+        'projects': Repositorie.objects.all().order_by('repositorie_name'),
     }
     return render(request, 'edit.html', context)
 

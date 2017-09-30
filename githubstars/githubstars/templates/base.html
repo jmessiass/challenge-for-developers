@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Jonathan Messias">
     <title>Meus Favoritos</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
@@ -19,5 +20,7 @@
     <section>
         {% block conteudo %}{% endblock conteudo %}
     </section>
+    {% block js %}{% endblock js %}
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 </body>
 </html>

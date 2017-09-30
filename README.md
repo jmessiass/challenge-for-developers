@@ -24,7 +24,7 @@
 
 ## Salvar Projetos
 
-- acesse o projeto pelo navegador
+- acesse a home do projeto pelo navegador
 
 `localhost:8000`
 
