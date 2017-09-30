@@ -16,11 +16,10 @@
         <ol class="breadcrumb">
             {% block breadcrumb %}{% endblock breadcrumb %}
         </ol>
-    </ol>
     <section>
         {% block conteudo %}{% endblock conteudo %}
     </section>
-    {% block js %}{% endblock js %}
     <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    {% block js %}{% endblock js %}
 </body>
 </html>

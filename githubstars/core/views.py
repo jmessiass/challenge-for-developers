@@ -54,28 +54,29 @@ def remove_tag_duplicate(tags):
     return final_tags
 
 
-def edit(request):
+def edit(request, project_id=None):
     """ edit repositorie page """
-    validation = None
     if request.method == 'POST' and request.POST.get('uid'):
         id_project = request.POST.get('uid', 0)
         projects = Repositorie.objects.get(repositorie_id=id_project)
         serializer = RepositorieSerializer(projects, many=False)
         return JsonResponse(serializer.data, safe=False)
 
-    elif request.method == 'POST' and not request.POST.get('uid'):
+    elif request.method == 'POST' and request.POST.get('id'):
+        # update tags
         tags = request.POST.get('tags', None)
         final_tags = remove_tag_duplicate(tags)
-        # update tags
-        id_project = request.POST.get('project', 0)
-        project = Repositorie.objects.get(id=id_project)
-        project.repositorie_tag = final_tags
-        project.save()
-        validation = True
+        id_project = request.POST.get('id', 0)
+        project = Repositorie.objects.get(repositorie_id=id_project)
+
+        data = {'tag': final_tags}
+
+        serializer = RepositorieSerializer.update(request, project, data)
+        serializer.save()
+        return JsonResponse(data={'status': 200})
 
     context = {
         'projects': Repositorie.objects.all().order_by('name'),
-        'validation': validation
     }
 
     return render(request, 'edit.html', context)
@@ -87,8 +88,6 @@ def search(request):
 
 
 class RepositorieViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
+    """ API endpoint that allows users to be viewed or edited """
     queryset = Repositorie.objects.all().order_by('name')
     serializer_class = RepositorieSerializer

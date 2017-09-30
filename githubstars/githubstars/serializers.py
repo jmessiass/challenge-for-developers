@@ -14,11 +14,5 @@ class RepositorieSerializer(serializers.Serializer):
         return Repositorie.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        """ Update and return an existing `Snippet` instance, given the validated data."""
-        instance.repositorie_id = validated_data.get('repositorie_id', instance.repositorie_id)
-        instance.name = validated_data.get('name', instance.name)
-        instance.url = validated_data.get('url', instance.url)
-        instance.language = validated_data.get('language', instance.language)
         instance.tag = validated_data.get('tag', instance.tag)
-        instance.save()
         return instance

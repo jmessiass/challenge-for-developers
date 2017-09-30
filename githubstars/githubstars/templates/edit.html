@@ -4,56 +4,67 @@
     <li class="breadcrumb-item active">Adicionar Tags</li>
 {% endblock breadcrumb %}
 {% block conteudo %}
-    <form action="{% url 'editar' %}" method="post">
-        {% csrf_token %}
-        <div class="col-md-4 text-center align-center">
-            <div class="form-group">
-                <label for="projetos"><b>Projetos</b></label>
-                <select class="form-control" name="project" onchange="SelectProject(this)">
-                    <option>Selecione um projeto...</option>
-                    {% for project in projects %}
-                        <option value="{{ project.repositorie_id }}">{{ project }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="exampleInputEmail1"><b>Tags</b></label>
-                <input type="text" class="form-control" aria-describedby="tagsProjeto" name="tags" id="tags">
-                <small id="tagsProjeto" class="form-text text-muted">Adicione as tags separadas por vírgula - ex. tag1,tag2,tag3</small>
-            </div>
-            <button type="submit" class="btn btn-primary">Adicionar</button>
-            {% if validation == True %}
-                <div class="alert alert-success" role="alert">
-                    Tags atualizadas :)
-                </div>
-            {% elif validation == False %}
-                <div class="alert alert-danger" role="alert">
-                    {{ msg }}
-                </div>
-            {% endif %}
+    <div class="col-md-4 text-center align-center">
+        <div class="form-group">
+            <label for="projetos"><b>Projetos</b></label>
+            <select class="form-control" name="project" id="project">
+                <option value="0">Selecione um projeto...</option>
+                {% for project in projects %}
+                    <option value="{{ project.repositorie_id }}">{{ project }}</option>
+                {% endfor %}
+            </select>
         </div>
-    </form>
+        <div class="form-group">
+            <label for="exampleInputEmail1"><b>Tags</b></label>
+            <input type="text" class="form-control" aria-describedby="tagsProjeto" name="tags" id="tags">
+            <small id="tagsProjeto" class="form-text text-muted">Adicione as tags separadas por vírgula - ex. tag1,tag2,tag3</small>
+            <small id="tagsProjeto" class="form-text text-muted">De enter após inserir suas tags</small>
+        </div>
+        <div id="msg"></div>
+    </div>
 {% endblock conteudo %}
 {% block js %}
     <script>
-        function SelectProject(id_project) {
-          $.ajax({
-            type:"POST",
-            url: '{% url "editar" %}',
-            data: {
-                uid: id_project.value,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-            success: function(data){
-                var tags = JSON.stringify(data['tag']);
-                tags = tags.replace(/\"/g, "");
-                if ( tags != 'null' ) {
-                    $('#tags').val(tags);
-                } else {
-                    $('#tags').val('');
+        $( "#project" ).change(function() {
+            $.ajax({
+                type:"POST",
+                url: '{% url "editar" %}',
+                data: {
+                    uid: this.value,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(data){
+                    var tags = JSON.stringify(data['tag']);
+                    tags = tags.replace(/\"/g, "");
+                    if ( tags != 'null' ) {
+                        $('#tags').val(tags);
+                    } else {
+                        $('#tags').val('');
+                    }
                 }
-            }
-          });
-        }
+            });
+        });
+        $( "#tags" ).change(function() {
+            $.ajax({
+                type:"POST",
+                url: '{% url "editar" %}',
+                data: {
+                    tags: this.value,
+                    id: $('#project').val(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(data){
+                    if ( JSON.stringify(data['status']) == 200 ) {
+                        $('#project').val(0)
+                        $('#tags').val('')
+                        $('#msg').html('')
+                        $("#msg").append("<div class='alert alert-success' role='alert'>Tags atualizadas :)</div>");
+                    } else {
+                        $('#msg').html('')
+                        $("#msg").append("<div class='alert alert-danger' role='alert'>Ocorreu um erro para atualizar as Tags</div>");
+                    }
+                }
+            });
+        });
     </script>
 {% endblock js %}
