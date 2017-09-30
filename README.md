@@ -30,4 +30,4 @@
 
 - Clique em Salvar Projetos
 
-- Entre com o nome do usuário do GitHub e clique em Salvar
+- Entre com o nome do usuário do GitHub e de enter
