@@ -11,10 +11,9 @@ def home(request):
 
 def new(request):
     """ new repositorie page """
-    validation = False
+    validation = None
     msg = ''
     if request.method == 'POST':
-
         url = 'https://api.github.com/users/%s/starred' % request.POST.get('user')
         return_url = requests.get(url)
 
@@ -32,6 +31,7 @@ def new(request):
                 obj_repositorie.save()
 
         else:
+            validation = False
             msg = 'Não foi possível encontrar este usuário!'
 
     context = {
@@ -44,7 +44,10 @@ def new(request):
 
 def edit(request):
     """ edit repositorie page """
-    return render(request, 'edit.html')
+    context = {
+        'projects': Repositorie.objects.all().order_by('repositorie_name')
+    }
+    return render(request, 'edit.html', context)
 
 
 def search(request):

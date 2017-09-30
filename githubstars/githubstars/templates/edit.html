@@ -1,4 +1,36 @@
 {% extends 'base.html' %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item active">Adicionar Tags</li>
+{% endblock breadcrumb %}
 {% block conteudo %}
-    edit
+    <form action="{% url 'novo' %}" method="post">
+        {% csrf_token %}
+        <div class="col-md-4 text-center align-center">
+            <div class="form-group">
+                <label for="projetos"><b>Projetos</b></label>
+                <select class="form-control" name="projects">
+                    <option>Selecione um projeto...</option>
+                    {% for project in projects %}
+                        <option value="{{ project.id }}">{{ project }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1"><b>Tags</b></label>
+                <input type="text" class="form-control" aria-describedby="tagsProjeto" name="user" placeholder="tag1,tag2,tag3" required="required">
+                <small id="tagsProjeto" class="form-text text-muted">Coloque cada tag separada por vírgula</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Adicionar</button>
+            {% if validation == True %}
+                <div class="alert alert-success" role="alert">
+                    Foram adicionados {{ msg }} Projetos
+                </div>
+            {% elif validation == False %}
+                <div class="alert alert-danger" role="alert">
+                    {{ msg }}
+                </div>
+            {% endif %}
+        </div>
+    </form>
 {% endblock conteudo %}

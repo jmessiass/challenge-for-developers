@@ -21,3 +21,13 @@
 - execute o projeto
 
 `python manage.py runserver 0.0.0.0:8000`
+
+## Salvar Projetos
+
+- acesse o projeto pelo navegador
+
+`localhost:8000`
+
+- Clique em Salvar Projetos
+
+- Entre com o nome do usuário do GitHub e clique em Salvar

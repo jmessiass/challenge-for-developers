@@ -1,8 +1,29 @@
 {% extends 'base.html' %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">Home</li>
+{% endblock breadcrumb %}
 {% block conteudo %}
-    <ul>
-        <li><a href="{% url 'novo' %}">Novo</a></li>
-        <li><a href="{% url 'editar' %}">Editar</a></li>
-        <li><a href="{% url 'pesquisar' %}">Pesquisar</a></li>
-    </ul>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <a href="{% url 'novo' %}" class="btn btn-success btn-lg">Salvar Projetos</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <a href="{% url 'editar' %}" class="btn btn-primary btn-lg">Adicionar Tags</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <a href="{% url 'pesquisar' %}" class="btn btn-danger btn-lg">Buscar por Tag</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock conteudo %}

@@ -1,14 +1,26 @@
 {% extends 'base.html' %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item active">Salvar Projetos</li>
+{% endblock breadcrumb %}
 {% block conteudo %}
     <form action="{% url 'novo' %}" method="post">
         {% csrf_token %}
-        <p>Usuário GitHub</p>
-        <input type="text" name="user" required="required" />
-        <input type="submit" value="Salvar Favoritos">
+        <div class="col-md-4 text-center align-center">
+            <div class="form-group">
+                <label for="exampleInputEmail1"><b>Usuário GitHub</b></label>
+                <input type="text" class="form-control" aria-describedby="usuarioGitHub" name="user" placeholder="Entre com o usuário" required="required">
+            </div>
+            <button type="submit" class="btn btn-success">Salvar</button>
+            {% if validation == True %}
+                <div class="alert alert-success" role="alert">
+                    Foram adicionados {{ msg }} Projetos
+                </div>
+            {% elif validation == False %}
+                <div class="alert alert-danger" role="alert">
+                    {{ msg }}
+                </div>
+            {% endif %}
+        </div>
     </form>
-    {% if validation == True%}
-        <p>Foram adicionados {{ msg }} Projetos</p>
-    {% elif validation == False %}
-        <p>{{ msg }}</p>
-    {% endif %}
 {% endblock conteudo %}

@@ -1,7 +1,28 @@
 body {
-    background-color: #ccc;
+    background-color: #f8dd00;
+}
+header {
+    background-color: #161300;
+    padding-top: 8px;
+    padding-bottom: 2px;
+    cursor: default;
 }
 header h2 {
-    color: black;
+    color: #f8dd44;
     text-align: center;
+}
+.card {
+    margin-top: 8px;
+}
+.card-body {
+    margin: 0 auto;
+}
+.row {
+    margin: 0;
+}
+.align-center {
+    margin: 0 auto;
+}
+.alert {
+    margin-top: 20px;
 }

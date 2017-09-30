@@ -1,4 +1,26 @@
 {% extends 'base.html' %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item active">Buscar por Tags</li>
+{% endblock breadcrumb %}
 {% block conteudo %}
-    search
+    <form action="{% url 'novo' %}" method="post">
+        {% csrf_token %}
+        <div class="col-md-4 text-center align-center">
+            <div class="form-group">
+                <label for="tagsProjeto"><b>Tag</b></label>
+                <input type="text" class="form-control" aria-describedby="tagsProjeto" name="user" placeholder="Entre com a tag" required="required">
+            </div>
+            <button type="submit" class="btn btn-danger">Buscar</button>
+            {% if validation == True %}
+                <div class="alert alert-success" role="alert">
+                    Foram adicionados {{ msg }} Projetos
+                </div>
+            {% elif validation == False %}
+                <div class="alert alert-danger" role="alert">
+                    {{ msg }}
+                </div>
+            {% endif %}
+        </div>
+    </form>
 {% endblock conteudo %}
