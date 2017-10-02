@@ -28,6 +28,20 @@
 
 `localhost:8000`
 
-- Clique em Salvar Projetos
+- clique em Salvar Projetos
 
-- Entre com o nome do usuário do GitHub e de enter
+- entre com o nome do usuário do GitHub e de enter
+
+## Adicionar Tags
+
+- na home do projeto, clique em Adicionar Tags
+
+- selecione o projeto que deseja incluir tags
+
+- defina as tags do projeto e de enter
+
+## Buscar projeto por Tag
+
+- na home do projeto, clique em Buscar por Tag
+
+- digite a tag que deseja buscar e de enter
