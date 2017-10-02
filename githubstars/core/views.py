@@ -84,14 +84,11 @@ def edit(request, project_id=None):
 
 def search(request):
     """ search repositorie page """
-    # context = {}
     if request.method == 'GET' and request.GET.get('uid'):
         projects = Repositorie.objects.filter(tag__contains=request.GET.get('uid'))
         serializer = RepositorieSerializer(projects, many=True)
         return JsonResponse(serializer.data, safe=False)
-    # context.update({'projects': Repositorie.objects.filter(tag__contains=request.GET.get('uid'))})
 
-    # import ipdb; ipdb.set_trace()
     return render(request, 'search.html')
 
 
