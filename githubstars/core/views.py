@@ -32,6 +32,7 @@ def search(request):
 
 
 def find_by_tag(request):
+    """ find projects by tag """
     if request.method == 'GET' and request.GET.get('uid'):
         projects = Repository.objects.filter(tag__contains=request.GET.get('uid'))
         serializer = RepositorySerializer(projects, many=True)
