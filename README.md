@@ -18,6 +18,10 @@
 
 `pip install -r requirements.txt`
 
+- rode as migrations
+
+`python manage.py migrate`
+
 - execute o projeto
 
 `python manage.py runserver 0.0.0.0:8000`
