@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import Repositorie
+from .models import Repository
 
 
-@admin.register(Repositorie)
+@admin.register(Repository)
 class RepositorieAdmin(admin.ModelAdmin):
     """ Competition admin """
-    list_display = ('repositorie_id', 'name', 'language',)
-    list_display_links = ('repositorie_id', 'name', 'language')
+    list_display = ('repository_id', 'name', 'language',)
+    list_display_links = ('repository_id', 'name', 'language')
     list_filter = ('language',)

@@ -1,9 +1,9 @@
 from django.db import models
 
 
-class Repositorie(models.Model):
+class Repository(models.Model):
     """ Models of Competition """
-    repositorie_id = models.IntegerField('ID')
+    repository_id = models.IntegerField('ID')
     name = models.CharField('Nome', max_length=100)
     url = models.CharField('URL', max_length=255)
     language = models.CharField('Linguagem', max_length=20)
