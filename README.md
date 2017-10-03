@@ -51,7 +51,3 @@
 - pelo shell, execute o comando abaixo
 
 `python3 manage.py test core`
-
-### Observações
-
-Caso queira acessar o projeto pelo admin do django, entre com o usuário admin e senha mudar123
