@@ -18,7 +18,7 @@
         $( "#user" ).change(function() {
             $.ajax({
                 type:"POST",
-                url: '{% url "novo" %}',
+                url: '{% url "criar-projeto" %}',
                 data: {
                     uid: this.value,
                     csrfmiddlewaretoken: '{{ csrf_token }}'

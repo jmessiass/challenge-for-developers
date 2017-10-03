@@ -10,15 +10,6 @@
             <input type="text" class="form-control" aria-describedby="tagsProjeto" name="tag"  id="tag" autofocus="autofocus" placeholder="Entre com a tag" required="required">
             <small id="tagsProjeto" class="form-text text-muted">De enter após inserir sua tag</small>
         </div>
-        {% if validation == True %}
-            <div class="alert alert-success" role="alert">
-                Foram adicionados {{ msg }} Projetos
-            </div>
-        {% elif validation == False %}
-            <div class="alert alert-danger" role="alert">
-                {{ msg }}
-            </div>
-        {% endif %}
     </div>
     <div class="row"></div>
 {% endblock conteudo %}
@@ -27,26 +18,32 @@
         $( "#tag" ).change(function() {
             $.ajax({
                 type:"GET",
-                url: '{% url "pesquisar" %}',
+                url: '{% url "procurar-tags" %}',
                 data: { uid: this.value },
                 success: function(data){
                     if ( data == '' ) {
-                        alert('error');
-                    }
-                    $('.row').html('');
-                    $.each(data, function(index, project) {
-                        $('.row').append(
-                            "<div class='col-sm-4'>\
-                                <div class='card'>\
-                                    <div class='card-body'>\
-                                        <h4 class='card-title'>" + project['name'] + "</h4>\
-                                        <p class='card-text'>" + project['url'] + "</p>\
-                                        <p class='card-text'>" + project['tag'] + "</p>\
+                        $('.row').html('');
+                        $('.row').append('<div class="col-md-4 text-center align-center">\
+                                              <div class="alert alert-danger" role="alert">\
+                                                  Não encontramos projetos com essa tag =´^(\
+                                              </div>\
+                                          </div>');
+                    } else {
+                        $('.row').html('');
+                        $.each(data, function(index, project) {
+                            $('.row').append(
+                                "<div class='col-sm-4'>\
+                                    <div class='card'>\
+                                        <div class='card-body'>\
+                                            <h4 class='card-title'>" + project['name'] + "</h4>\
+                                            <p class='card-text'>" + project['url'] + "</p>\
+                                            <p class='card-text'>" + project['tag'] + "</p>\
+                                        </div>\
                                     </div>\
-                                </div>\
-                             </div>"
-                         );
-                    });
+                                 </div>"
+                             );
+                        });
+                    }
                 }
             });
         });

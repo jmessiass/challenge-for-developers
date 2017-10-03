@@ -28,7 +28,7 @@
         $( "#project" ).change(function() {
             $.ajax({
                 type:"POST",
-                url: '{% url "editar" %}',
+                url: '{% url "atualizar-tags" %}',
                 data: {
                     uid: this.value,
                     csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -47,7 +47,7 @@
         $( "#tags" ).change(function() {
             $.ajax({
                 type:"POST",
-                url: '{% url "editar" %}',
+                url: '{% url "atualizar-tags" %}',
                 data: {
                     tags: this.value,
                     id: $('#project').val(),
